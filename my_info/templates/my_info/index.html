@@ -1,0 +1,186 @@
+{% extends 'my_info/base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+    <div class="admin-content">
+        <div class="admin-content-body">
+            <div class="am-cf am-padding am-padding-bottom-0">
+                <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">个人资料</strong> /
+                    <small>Personal information</small>
+                </div>
+            </div>
+
+            <hr/>
+
+            <div class="am-g">
+                <div class="am-u-sm-12 am-u-md-4 am-u-md-push-8">
+
+
+                </div>
+
+                <div class="am-u-sm-12 am-u-md-8 am-u-md-pull-4">
+                    <form class="am-form am-form-horizontal">
+                        <div class="am-form-group">
+                            <label for="user-phone" class="am-u-sm-3 am-form-label">学号 / Student ID</label>
+                            <div class="am-u-sm-9">
+                                <input type="number" id="user-student-id" placeholder="输入你的学号 / Student ID"
+                                       value="{{ user.stu_id }}">
+                            </div>
+                        </div>
+
+                        <div class="am-form-group">
+                            <label for="user-name" class="am-u-sm-3 am-form-label">姓名 / Name</label>
+                            <div class="am-u-sm-9">
+                                <input type="text" id="user-name" placeholder="姓名 / Name" value="{{ user.stu_name }}">
+                                <small>输入你的名字，让我们记住你。</small>
+                            </div>
+                        </div>
+
+                        <div class="am-form-group">
+                            <label for="user-phone" class="am-u-sm-3 am-form-label">电话 / Telephone</label>
+                            <div class="am-u-sm-9">
+                                <input type="tel" id="user-phone" placeholder="输入你的电话号码 / Telephone"
+                                       value="{{ user.stu_tel }}">
+                            </div>
+                        </div>
+
+                        <div class="am-form-group">
+                            <label for="user-email" class="am-u-sm-3 am-form-label">电子邮件 / Email</label>
+                            <div class="am-u-sm-9">
+                                <input type="email" id="user-email" placeholder="输入你的电子邮件 / Email"
+                                       value="{{ user.stu_email }}">
+                                <small>邮箱你懂得...</small>
+                            </div>
+                        </div>
+
+                        <div class="am-form-group">
+                            <label for="user-QQ" class="am-u-sm-3 am-form-label">QQ</label>
+                            <div class="am-u-sm-9">
+                                <input type="number" pattern="[0-9]*" id="user-QQ" placeholder="输入你的QQ号码"
+                                       value="{{ user.stu_qq }}">
+                            </div>
+                        </div>
+
+
+                        <div class="am-form-group">
+                            <label for="user-intro" class="am-u-sm-3 am-form-label">简介 / Intro</label>
+                            <div class="am-u-sm-9">
+                                <textarea class="" rows="5" id="user-intro"
+                                          placeholder="输入个人简介">{{ user.stu_intro }}</textarea>
+                                <small>250字以内写出你的一生...</small>
+                            </div>
+                        </div>
+                        <div class="am-form-group">
+                            <label for="user-password" class="am-u-sm-3 am-form-label">新密码</label>
+                            <div class="am-u-sm-9">
+                                <input type="password" id="user-password" placeholder="输入你的新密码【不需要修改请留空】">
+                            </div>
+                        </div>
+                        <div class="am-form-group">
+                            <label for="user-password-again" class="am-u-sm-3 am-form-label">重复新密码</label>
+                            <div class="am-u-sm-9">
+                                <input type="password" id="user-password-again" placeholder="重复输入新密码【不需要修改请留空】">
+                            </div>
+                        </div>
+
+                        <div class="am-form-group">
+                            <div class="am-u-sm-9 am-u-sm-push-3">
+                                <button type="button" id="submit" class="am-btn am-btn-primary">保存修改</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <script>
+            $('#submit').click(function () {
+                var stu_id = $('#user-student-id').val();
+                var stu_name = $('#user-name').val();
+                var stu_phone = $('#user-phone').val();
+                var stu_email = $('#user-email').val();
+                var stu_qq = $('#user-QQ').val();
+                var stu_intro = $('#user-intro').val();
+                var password1 = $('#user-password').val();
+                var password2 = $('#user-password-again').val();
+
+                console.log(stu_id);
+                console.log(stu_name);
+                console.log(stu_phone);
+                console.log(stu_email);
+                console.log(stu_qq);
+                console.log(stu_intro);
+                console.log(password1);
+                console.log(password2);
+
+                if (!stu_id) {
+                    alert("学号不能为空");
+                    return;
+                }
+                if (!stu_name) {
+                    alert("姓名不能为空");
+                    return;
+                }
+                if (!stu_phone) {
+                    alert("手机号不能为空");
+                    return;
+                }
+                if (!stu_email) {
+                    alert("邮箱不能为空");
+                    return;
+                }
+                if (!stu_qq) {
+                    alert('QQ不能为空');
+                    return;
+                }
+                if (!stu_intro) {
+                    alert('自我简介不能为空');
+                    return;
+                }
+                var password = '';
+
+                if (password1 != password2) {
+                    alert("密码不一致");
+                    return;
+                }
+                password = password2;
+
+
+                $.ajax({
+                    type: 'POST',
+                    data: {
+                        stu_id: stu_id,
+                        stu_name: stu_name,
+                        stu_tel: stu_phone,
+                        stu_email: stu_email,
+                        stu_intro: stu_intro,
+                        stu_password: password,
+                        stu_qq: stu_qq,
+                        csrfmiddlewaretoken: '{{ csrf_token }}',
+                    },
+                    dataType: 'json',
+                    url: '{% url 'my_info:api' %}',
+                    success: function (data) {
+                        var code = data.code;
+                        var msg = data.msg;
+                        if (code == 200) {
+                            alert("修改成功");
+                        }
+                    }
+
+                });
+
+            })
+
+
+        </script>
+
+
+        <footer class="admin-content-footer">
+            <hr>
+            <p class="am-padding-left">© 2019 All license Left.</p>
+        </footer>
+
+    </div>
+{% endblock %}

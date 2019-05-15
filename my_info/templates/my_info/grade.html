@@ -1,0 +1,50 @@
+{% extends 'my_info/base.html' %}
+{% load static %}
+
+{% block content %}
+
+    <div class="admin-content">
+        <div class="admin-content-body">
+            <div class="am-cf am-padding am-padding-bottom-0">
+                <div class="am-fl am-cf">
+                    <strong class="am-text-primary am-text-lg">导师评价</strong> /
+                    <small>Teacher Evaluation</small>
+                </div>
+            </div>
+
+            <hr/>
+
+            <div class="am-g">
+                <div class="am-u-sm-12 am-u-sm-centered">
+                    <h2>作业完成情况</h2>
+                    <p>{{ user.stu_name }}同学</p>
+                    <p>第一次作业顺利完成！！</p>
+                    <p>感谢有你！</p>
+                    <hr/>
+                </div>
+                <div class="am-u-sm-12 am-u-sm-centered">
+                    <h3>自我介绍</h3>
+                    <p>{{ user.stu_name }}同学，你的自我介绍如下</p>
+
+                    <p>{{ user.stu_intro }}</p>
+                    <hr/>
+                </div>
+
+                <div class="am-u-sm-12 am-u-md-8 am-u-md-pull-4">
+                    <h3>导师评价</h3>
+                    <p>{{ user.stu_name }}同学，首先你选修我的PY,通过这学期的接触，我渐渐的发现</p>
+
+                    <p>{{ user.stu_info }}</p>
+
+                </div>
+            </div>
+        </div>
+
+        <footer class="admin-content-footer">
+            <hr>
+            <p class="am-padding-left">© 2019 All license Left.</p>
+        </footer>
+
+    </div>
+
+{% endblock %}

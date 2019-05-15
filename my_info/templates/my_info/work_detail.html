@@ -1,0 +1,83 @@
+{% extends 'my_info/base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="admin-content">
+        <div class="admin-content-body">
+            <div class="am-cf am-padding am-padding-bottom-0">
+                <div class="am-fl am-cf">
+                    <strong class="am-text-primary am-text-lg">表单</strong> /
+                    <small>form</small>
+                </div>
+            </div>
+
+            <hr>
+
+            <form class="am-form">
+                <fieldset>
+                    {% for topic in topics %}
+
+                        <div class="am-form-group">
+                            <label for="doc-ipt-email-1">{{ topic.desc }} 分数({{ topic.mark }})</label>
+                            <input type="text" class="" id="topic-{{ topic.id }}" {% if topic.your_answer %}value="{{ topic.your_answer }}"{% else %} placeholder="输入{{ topic.desc }}的答案" {% endif %}>
+                        </div>
+
+                    {% endfor %}
+
+
+                </fieldset>
+
+            </form>
+
+
+            <div class="am-margin">
+                <button type="button" id="submit" class="am-btn am-btn-primary am-btn-xs">提交保存</button>
+                {#                <button type="button" class="am-btn am-btn-primary am-btn-xs">放弃保存</button>#}
+            </div>
+        </div>
+        <script>
+            $('#submit').click(function () {
+                {#var var1 = $('#topic-1').val();#}
+                {% for topic in topics %}
+                    var topic{{ topic.id }} = $('#topic-{{ topic.id }}').val();
+                {% endfor %}
+                if ({% for topic in topics %} topic{{ topic.id }}==''|| {% endfor %}0) {
+                    alert("请填写所有题目");
+                    return;
+                }
+
+                $.ajax({
+                    type: 'POST',
+                    data: {
+                        ids: '{% for topic in topics %}{{ topic.id }}{% if not forloop.last %},{% endif %}{% endfor %}',
+                        {% for topic in topics %}topic{{ topic.id }}:topic{{ topic.id }},{% endfor %}
+                        csrfmiddlewaretoken: '{{ csrf_token }}'
+                    },
+                    dataTpye: 'json',
+                    url: '{% url 'my_info:topic_api' %}',
+                    success: function (res) {
+                        console.log(res)
+                        if (res.code == 200) {
+                            alert(res.msg);
+                        } else {
+                            alert(res.msg);
+                        }
+
+                    }
+
+                })
+
+
+            })
+
+        </script>
+
+
+        <footer class="admin-content-footer">
+            <hr>
+            <p class="am-padding-left">© 2019 All license Left.</p>
+        </footer>
+    </div>
+
+
+{% endblock %}
